@@ -13,6 +13,14 @@ struct Point {
     Point() = default;
 };
 
+struct Velocity {
+    float x, y;
+
+    Velocity(float x, float y) : x(x), y(y) {}
+
+    Velocity() = default;
+};
+
 struct Rotation {
     float pitch, yaw, roll;
 
@@ -21,8 +29,18 @@ struct Rotation {
     Rotation() = default;
 };
 
-struct RotationSystem : System {
-    void update() override {
+struct VelocitySystem : System {
+    void update(World& world) override {
+        for (auto e : *world.queryAll<Point, Velocity>())
+        {
+            auto& velocity = world.getComponent<Velocity>(e);
+            auto& point = world.getComponent<Point>(e);
+
+            point.x += velocity.x;
+            point.y += velocity.y;
+
+            std::cout << "(" << point.x << ", " << point.y << ")" << std::endl;
+        }
     }
 };
 
@@ -30,21 +48,23 @@ struct RotationSystem : System {
 int main() {
 
     World world;
-    world.registerComponent<Point>();
-    world.registerComponent<Rotation>();
+    world.registerSystem<VelocitySystem>();
+
     Entity e = world.createEntity();
     Entity e1 = world.createEntity();
+
+    world.registerComponent<Point>();
+    world.registerComponent<Rotation>();
+    world.registerComponent<Velocity>();
+
     world.addComponent(e, Point(3, 1));
+    world.addComponent(e, Velocity(10, 7));
     world.addComponent(e, Rotation(10, 20, 30));
-
-
     world.addComponent(e1, Rotation(10, 10, 5));
 
-    world.registerSystem<RotationSystem>();
-    auto entities = world.queryAll<Point>();
+    world.updateSystems();
+    world.updateSystems();
+    world.updateSystems();
 
-    for (auto e : *entities) {
-        std::cout << world.getSignature(e) << std::endl;
-    }
     return 0;
 }

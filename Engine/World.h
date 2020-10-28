@@ -5,9 +5,12 @@
 #ifndef ENGINE_WORLD_H
 #define ENGINE_WORLD_H
 
+class System;
+
 #include "SystemManager.h"
 #include "EntityManager.h"
 #include "ComponentManager.h"
+#include "Query.h"
 
 class World {
 public:
@@ -44,20 +47,19 @@ public:
     }
 
     template<typename T>
+    T &getComponent(Entity e) {
+        return _componentManager.getComponent<T>(e);
+    }
+
+    template<typename T>
     void removeComponent(Entity e) {
         _entityManager.removeSignature(e, _componentManager.getComponentSignature<T>());
         _componentManager.removeComponent<T>(e);
     }
 
-    template<typename First = void, typename... Args>
-    Signature getComponentSignature() {
-        return sizeof...(Args) == 0 ? _componentManager.getComponentSignature<First>() : _componentManager.getComponentSignature<First>() | getComponentSignature<Args...>();
-    }
-
     template<typename... Args>
     std::vector<Entity> *queryAll() {
-        Signature signature;
-        signature = getComponentSignature<Args...>();
+        Signature signature = getComponentSignature<Args...>();
         auto *entities = new std::vector<Entity>();
         for (auto iterator : _entityManager.getEntitiesIterator()) {
             if ((signature & iterator.second) == signature) {
@@ -65,6 +67,16 @@ public:
             }
         }
         return entities;
+    }
+
+    template<typename First = void, typename... Args>
+    Signature getComponentSignature() {
+        return sizeof...(Args) == 0 ? _componentManager.getComponentSignature<First>() : _componentManager.getComponentSignature<First>() | getComponentSignature<Args...>();
+    }
+
+    void updateSystems()
+    {
+        _systemManager.updateSystems(*this);
     }
 
 private:

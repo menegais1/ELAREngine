@@ -9,13 +9,14 @@ class SystemManager {
 public:
 
     template<typename T>
-    void registerSystem() {
+    T* registerSystem() {
         static_assert(std::is_base_of<System, T>::value, "Type is not a system");
         const char *typeName = typeid(T).name();
         assert(_systems.find(typeName) == _systems.end() && "System is already registered!");
         T *system = new T();
         _systems.insert({typeName, system});
         _activeSystems.push_back(system);
+        return system;
     }
 
 // Todo: Commented code due to System not containing any entity info, world is responsible for returning a list containing all pertinent info using a query
@@ -41,6 +42,15 @@ public:
 //            }
 //        }
 //    }
+
+    void updateSystems(World& world)
+    {
+        for (auto& system : _systems)
+        {
+            system.second->update(world);
+        }
+    }
+
 
 private:
     std::unordered_map<const char *, System *> _systems;
