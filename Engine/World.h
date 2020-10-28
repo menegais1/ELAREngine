@@ -25,7 +25,6 @@ public:
 
     void destroyEntity(Entity e) {
         _entityManager.destroyEntity(e);
-        _systemManager.EntityDestroyed(e);
     }
 
     Signature getSignature(Entity e) {
@@ -59,7 +58,7 @@ public:
     std::vector<Entity> *queryAll() {
         Signature signature;
         signature = getComponentSignature<Args...>();
-        std::vector<Entity> *entities = new std::vector<Entity>();
+        auto *entities = new std::vector<Entity>();
         for (auto iterator : _entityManager.getEntitiesIterator()) {
             if ((signature & iterator.second) == signature) {
                 entities->push_back(iterator.first);

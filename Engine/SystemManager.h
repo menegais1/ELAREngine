@@ -18,14 +18,14 @@ public:
         _activeSystems.push_back(system);
     }
 
-//Todo Commented code due to System not containing any entity info, world is responsible for returning a list containing all pertinent info using a query
-//    //Todo This must be delayed until the frame ends, or else it can crash the system
+// Todo: Commented code due to System not containing any entity info, world is responsible for returning a list containing all pertinent info using a query
+// Todo: This must be delayed until the frame ends, or else it can crash the system
 //    void EntityDestroyed(Entity entity) {
 //        for (auto const &pair : _systems) {
-//            auto const &system = pair.second;
-//            system->entities.erase(entity);
+//              auto const &system = pair.second;
+//              system->entities.erase(entity);
 //        }
-//    }
+//     }
 //
 //    //Todo This must be delayed until the frame ends, or else it can crash the system
 //    void EntitySignatureDestroyed(Entity entity, Signature entitySignature) {

@@ -23,7 +23,6 @@ struct Rotation {
 
 struct RotationSystem : System {
     void update() override {
-        
     }
 };
 
