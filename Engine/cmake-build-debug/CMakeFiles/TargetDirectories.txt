@@ -1,3 +1,0 @@
-/home/menegais1/Documents/Projects/ComputerGraphics/ELAREngine/Engine/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/menegais1/Documents/Projects/ComputerGraphics/ELAREngine/Engine/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/menegais1/Documents/Projects/ComputerGraphics/ELAREngine/Engine/cmake-build-debug/CMakeFiles/Engine.dir

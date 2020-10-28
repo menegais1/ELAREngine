@@ -2,6 +2,7 @@
 #include "ComponentManager.h"
 #include "EntityManager.h"
 #include "System.h"
+#include "SystemManager.h"
 
 struct Point {
     float x, y;
@@ -19,10 +20,22 @@ struct Rotation {
     Rotation() = default;
 };
 
+struct RotationSystem : System {
+    void update() override
+    {
+        for (auto const& entity : entities)
+        {
+
+        }
+    }
+};
+
 
 int main() {
     ComponentManager componentManager;
     EntityManager entityManager;
+    SystemManager systemManager;
+
     componentManager.registerComponent<Point>();
     componentManager.registerComponent<Rotation>();
     Entity e = entityManager.createEntity();
@@ -31,6 +44,7 @@ int main() {
     componentManager.addComponent(e, Rotation(10, 20, 30));
     entityManager.setSignature(e, componentManager.getComponentSignature<Point>());
     entityManager.setSignature(e, componentManager.getComponentSignature<Rotation>());
+    systemManager.addSystem<RotationSystem>();
 
     Signature s = entityManager.getSignature(e);
     std::cout << s << std::endl;
