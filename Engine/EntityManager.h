@@ -45,6 +45,10 @@ public:
         return _entities[e];
     }
 
+    const std::unordered_map<Entity, Signature> &getEntitiesIterator() {
+        return _entities;
+    }
+
 private:
     std::stack<Entity> _freeEntities;
     std::unordered_map<Entity, Signature> _entities;

@@ -1,15 +1,17 @@
-#pragma once
+#ifndef ENGINE_SYSTEM_H
+#define ENGINE_SYSTEM_H
+
 
 #include "Entity.h"
 #include <set>
 
 class System {
-
 public:
-    virtual void update() = 0;
-    Signature signature;
-    std::set<Entity> entities;
+    virtual void setup() {};
 
-    // Todo: Add this to Coordinator
-    EntityManager entityManager;
+    virtual void update() = 0;
+
+    virtual void postUpdate() {};
 };
+
+#endif
