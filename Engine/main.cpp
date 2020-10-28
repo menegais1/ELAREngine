@@ -23,9 +23,7 @@ struct Rotation {
 
 struct RotationSystem : System {
     void update() override {
-        for (auto const &entity : entities) {
-
-        }
+        
     }
 };
 
